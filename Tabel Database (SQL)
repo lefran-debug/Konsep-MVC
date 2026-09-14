@@ -1,0 +1,12 @@
+CREATE DATABASE db_sekolah;
+USE db_sekolah;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+-- Password default: 12345 (sudah di-hash)
+INSERT INTO users (username, password) VALUES 
+('admin', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZJ18JuywdBq7z0k6hP0q0Q4K');
