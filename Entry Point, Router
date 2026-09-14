@@ -1,0 +1,25 @@
+<?php
+session_start();
+require_once __DIR__ . '/controllers/AuthController.php';
+
+$page = $_GET['page'] ?? 'login';
+$auth = new AuthController();
+
+switch ($page) {
+    case 'login':
+        $auth->login();
+        break;
+    case 'logout':
+        $auth->logout();
+        break;
+    case 'dashboard':
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+        echo "<h1>Selamat datang, " . $_SESSION['username'] . "</h1>";
+        echo "<a href='index.php?page=logout'>Logout</a>";
+        break;
+    default:
+        echo "Halaman tidak ditemukan";
+}
