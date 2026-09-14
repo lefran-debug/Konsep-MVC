@@ -1,0 +1,37 @@
+<?php
+require_once __DIR__ . '/../models/User.php';
+
+class AuthController {
+    public function login() {
+        // Tampilkan form (GET)
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            require_once __DIR__ . '/../views/login.php';
+            return;
+        }
+
+        // Proses login (POST)
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        $userModel = new User();
+        $user = $userModel->cekLogin($username, $password);
+
+        if ($user) {
+            session_start();
+            $_SESSION['user_id']  = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            header("Location: index.php?page=dashboard");
+            exit;
+        } else {
+            $error = "Username atau password salah!";
+            require_once __DIR__ . '/../views/login.php';
+        }
+    }
+
+    public function logout() {
+        session_start();
+        session_destroy();
+        header("Location: index.php?page=login");
+        exit;
+    }
+}
